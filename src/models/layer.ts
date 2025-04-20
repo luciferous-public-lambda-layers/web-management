@@ -20,9 +20,9 @@ export type ModelLayer = {
   stateLayer: StateLayer;
   packages: string[];
   isArchitectureSplit: boolean;
-  note?: string;
+  note: string | null;
   updatedAt: string;
-  ignoreVersions?: LambdaRuntime[];
+  ignoreVersions: LambdaRuntime[] | null;
 };
 
 export type ModelHistoryLayer = {

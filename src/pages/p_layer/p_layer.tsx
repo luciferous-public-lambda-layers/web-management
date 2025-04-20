@@ -3,13 +3,15 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 
 import { useSetterFlagLoading } from "@/context/context_flag_loading";
-import { ModelLayer } from "@/models/layer";
-import { getLayer, updateLayer } from "@/repositories/layers";
+import { LambdaRuntime, ModelLayer, allLambdaRuntimes } from "@/models/layer";
+import { deleteLayer, getLayer, updateLayer } from "@/repositories/layers";
 import { sleep } from "@/utils";
 
 type UrlParam = {
   identifier: string;
 };
+
+const ID_MODAL_SELECT_IGNORE_VERSIONS = "modalSelectIgnoreVersions";
 
 export async function clientLoaderPLayer(
   data: LoaderFunctionArgs,
@@ -32,6 +34,8 @@ export function PLayer() {
     packages: [],
     isArchitectureSplit: false,
     updatedAt: "",
+    ignoreVersions: null,
+    note: null,
   });
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
 
@@ -66,6 +70,16 @@ export function PLayer() {
     }
     setModalLayer({ ...currentLayer });
     setIsShowModalUpdate(true);
+  }
+
+  async function clickDelete() {
+    const resp = confirm("このレイヤーを削除しますか?");
+    if (!resp) {
+      return;
+    }
+    setFlagLoading(true);
+    await deleteLayer({ identifier });
+    await loadLayer();
   }
 
   function changeModalIsArchitecture(e: ChangeEvent<HTMLInputElement>) {
@@ -109,10 +123,41 @@ export function PLayer() {
     setModalLayer({ ...modalLayer, ...data });
   }
 
+  function clickModalDeleteIgnoreVersions(e: MouseEvent<HTMLButtonElement>) {
+    const elm = e.target as HTMLButtonElement;
+    const index = Number(elm.dataset.index);
+
+    let versions: LambdaRuntime[] | null = (
+      modalLayer.ignoreVersions ?? []
+    ).filter((_, i) => i !== index);
+    if (versions.length === 0) {
+      versions = null;
+    }
+
+    const data: Partial<ModelLayer> = {
+      ignoreVersions: versions,
+    };
+    setModalLayer({ ...modalLayer, ...data });
+  }
+
+  function clickModalAddIgnoreVersion() {
+    const elm = document.getElementById(
+      ID_MODAL_SELECT_IGNORE_VERSIONS,
+    ) as HTMLSelectElement;
+    const current = modalLayer.ignoreVersions ?? [];
+
+    const data: Partial<ModelLayer> = {
+      ignoreVersions: allLambdaRuntimes.filter(
+        (v) => current.includes(v) || v === elm.value,
+      ),
+    };
+    setModalLayer({ ...modalLayer, ...data });
+  }
+
   function changeModalNote(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     const data: Partial<ModelLayer> = {
-      note: value ? value : undefined,
+      note: value ? value : null,
     };
     setModalLayer({ ...modalLayer, ...data });
   }
@@ -130,6 +175,7 @@ export function PLayer() {
       isArchitectureSplit: modalLayer.isArchitectureSplit,
       packages: modalLayer.packages,
       note: modalLayer.note,
+      ignoreVersions: modalLayer.ignoreVersions,
     });
     setLayer(nextLayer);
     setIsShowModalUpdate(false);
@@ -152,8 +198,11 @@ export function PLayer() {
           <button className="button mr-3" onClick={loadLayer}>
             Reload
           </button>
-          <button className="button" onClick={clickUpdateRaw}>
+          <button className="button mr-3" onClick={clickUpdateRaw}>
             Update
+          </button>
+          <button className="button" onClick={clickDelete}>
+            Delete
           </button>
         </p>
         <table className="table is-fullwidth">
@@ -204,7 +253,7 @@ export function PLayer() {
     );
 
   const modalPackages = modalLayer.packages.map((pk, i) => (
-    <div key={i} className="field has-addons">
+    <div key={`${i}_${pk}`} className="field has-addons">
       <div className="control">
         <button
           className="button is-link"
@@ -225,6 +274,32 @@ export function PLayer() {
       </div>
     </div>
   ));
+  const modalIgnoreVersions = (modalLayer.ignoreVersions ?? []).map(
+    (runtime, i) => (
+      <div key={`${i}_${runtime}`} className="field has-addons">
+        <div className="control">
+          <button
+            className="button is-link"
+            data-index={i}
+            onClick={clickModalDeleteIgnoreVersions}
+          >
+            X
+          </button>
+        </div>
+        <div className="control is-expanded">
+          <input type="text" className="input" value={runtime} disabled />
+        </div>
+      </div>
+    ),
+  );
+
+  const modalOptionsIgnoreVersions = allLambdaRuntimes
+    .filter((v) => !(modalLayer.ignoreVersions ?? []).includes(v))
+    .map((v) => (
+      <option key={`options-${v}`} value={v}>
+        {v}
+      </option>
+    ));
 
   return (
     <>
@@ -280,6 +355,27 @@ export function PLayer() {
                 >
                   Add Package
                 </button>
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">ignoreVersions</label>
+            </div>
+            {modalIgnoreVersions}
+            <div className="field has-addons">
+              <div className="control">
+                <button
+                  className="button is-link"
+                  onClick={clickModalAddIgnoreVersion}
+                >
+                  add
+                </button>
+              </div>
+              <div className="control">
+                <div className="select">
+                  <select id={ID_MODAL_SELECT_IGNORE_VERSIONS}>
+                    {modalOptionsIgnoreVersions}
+                  </select>
+                </div>
               </div>
             </div>
             <div className="field">

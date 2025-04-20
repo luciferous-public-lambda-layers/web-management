@@ -1,8 +1,9 @@
-import { ModelLayer, StateLayer } from "@/models/layer";
+import { LambdaRuntime, ModelLayer, StateLayer } from "@/models/layer";
 import { generateCurrentDatetime } from "@/utils";
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
+  DeleteCommand,
   DynamoDBDocumentClient,
   GetCommand,
   ScanCommand,
@@ -58,13 +59,15 @@ export type PropsUpdateLayer = {
   identifier: string;
   isArchitectureSplit: boolean;
   packages: string[];
-  note: string | undefined;
+  note: string | null;
+  ignoreVersions: LambdaRuntime[] | null;
 };
 
 export async function updateLayer(
   props: PropsUpdateLayer,
 ): Promise<ModelLayer> {
   const client = await createDocumentClient();
+  console.log(props);
 
   const nextState: StateLayer = "QUEUED";
 
@@ -79,6 +82,7 @@ export async function updateLayer(
         "#isArchitectureSplit = :isArchitectureSplit",
         "#note = :note",
         "#updatedAt = :updatedAt",
+        "#ignoreVersions = :ignoreVersions",
       ].join(", "),
     ExpressionAttributeNames: {
       "#stateLayer": "stateLayer",
@@ -86,6 +90,7 @@ export async function updateLayer(
       "#isArchitectureSplit": "isArchitectureSplit",
       "#note": "note",
       "#updatedAt": "updatedAt",
+      "#ignoreVersions": "ignoreVersions",
     },
     ExpressionAttributeValues: {
       ":stateLayer": nextState,
@@ -93,9 +98,23 @@ export async function updateLayer(
       ":isArchitectureSplit": props.isArchitectureSplit,
       ":note": props.note,
       ":updatedAt": generateCurrentDatetime(),
+      ":ignoreVersions": props.ignoreVersions,
     },
     ReturnValues: "ALL_NEW",
   });
   const resp = await client.send(command);
   return resp.Attributes as ModelLayer;
+}
+
+export type PropsDeleteLayer = {
+  identifier: string;
+};
+
+export async function deleteLayer({ identifier }: PropsDeleteLayer) {
+  const client = await createDocumentClient();
+  const command = new DeleteCommand({
+    TableName: import.meta.env.VITE_NAME_DYNAMODB_TABLE,
+    Key: { identifier },
+  });
+  await client.send(command);
 }

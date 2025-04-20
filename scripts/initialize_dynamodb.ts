@@ -1,5 +1,3 @@
-import { writeFileSync } from "node:fs";
-
 import { ModelLayer } from "../src/models/layer";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
@@ -25,6 +23,8 @@ async function insertItems(client: DynamoDBDocumentClient) {
       packages: ["zstd"],
       isArchitectureSplit: true,
       updatedAt: "2025-03-23T12:53:44.133765+09:00",
+      ignoreVersions: null,
+      note: null,
     },
     {
       identifier: "scraper",
@@ -33,6 +33,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
       isArchitectureSplit: false,
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
       note: "combine",
+      ignoreVersions: null,
     },
     {
       identifier: "openai",
@@ -41,6 +42,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
       isArchitectureSplit: true,
       ignoreVersions: ["python3.9"],
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
+      note: null,
     },
     {
       identifier: "aws-cloudwatch-logs-url",
@@ -48,9 +50,10 @@ async function insertItems(client: DynamoDBDocumentClient) {
       packages: ["aws-cloudwatch-logs-url"],
       isArchitectureSplit: false,
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
+      note: null,
+      ignoreVersions: null,
     },
   ];
-  writeFileSync("tmp.json", JSON.stringify(items[1]));
   const command = new BatchWriteCommand({
     RequestItems: {
       [process.env.VITE_NAME_DYNAMODB_TABLE]: items.map((v) => {

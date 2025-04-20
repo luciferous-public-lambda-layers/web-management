@@ -1,2 +1,2 @@
-export { getAllLayers, getLayer, updateLayer } from "./layers";
-export type { PropsUpdateLayer } from "./layers";
+export { getAllLayers, getLayer, updateLayer, deleteLayer } from "./layers";
+export type { PropsUpdateLayer, PropsDeleteLayer } from "./layers";
