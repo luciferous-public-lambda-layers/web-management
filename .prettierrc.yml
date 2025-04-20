@@ -5,3 +5,4 @@ importOrderSortSpecifiers: true
 importOrder:
   - "^@/(.*)$"
   - "^./(.*)$"
+  - "../(.*)$"
