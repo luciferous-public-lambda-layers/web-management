@@ -1,5 +1,11 @@
 import classNames from "classnames";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+} from "react";
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 
 import { useSetterFlagLoading } from "@/context/context_flag_loading";
@@ -12,6 +18,7 @@ type UrlParam = {
 };
 
 const ID_MODAL_SELECT_IGNORE_VERSIONS = "modalSelectIgnoreVersions";
+const ID_MODAL_INPUT_A_PACKAGE = "modalInputAPackage";
 
 export async function clientLoaderPLayer(
   data: LoaderFunctionArgs,
@@ -100,27 +107,26 @@ export function PLayer() {
     setModalLayer({ ...modalLayer, ...data });
   }
 
-  function changeModalPackage(e: ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-    const index = Number(e.target.dataset.index);
-
+  function clickModalAddAPackage() {
+    const elm = document.getElementById(
+      ID_MODAL_INPUT_A_PACKAGE,
+    ) as HTMLInputElement;
+    const value = elm.value;
+    if (value == null || value === "") {
+      alert("Package名が空です");
+      return;
+    }
     const data: Partial<ModelLayer> = {
-      packages: modalLayer.packages.map((v, i) => {
-        if (i == index) {
-          return value;
-        } else {
-          return v;
-        }
-      }),
+      packages: ([] as string[]).concat(modalLayer.packages, [value]),
     };
     setModalLayer({ ...modalLayer, ...data });
+    elm.value = "";
   }
 
-  function clickModalAddPackage() {
-    const data: Partial<ModelLayer> = {
-      packages: ([] as string[]).concat(modalLayer.packages, [""]),
-    };
-    setModalLayer({ ...modalLayer, ...data });
+  function keyUpModalAddAPackage(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      clickModalAddAPackage();
+    }
   }
 
   function clickModalDeleteIgnoreVersions(e: MouseEvent<HTMLButtonElement>) {
@@ -269,7 +275,7 @@ export function PLayer() {
           className="input"
           value={pk}
           data-index={i}
-          onChange={changeModalPackage}
+          disabled
         />
       </div>
     </div>
@@ -304,15 +310,34 @@ export function PLayer() {
   return (
     <>
       <div className={classNames("modal", { "is-active": isShowModalUpdate })}>
-        <div
-          className="modal-background"
-          onClick={() => setIsShowModalUpdate(false)}
-        />
+        <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head is-primary">
             <p className="modal-card-title">Update</p>
           </header>
           <section className="modal-card-body">
+            <div className="field">
+              <label className="label">packages</label>
+            </div>
+            {modalPackages}
+            <div className="field has-addons">
+              <div className="control is-expanded">
+                <input
+                  type="text"
+                  className="input"
+                  id={ID_MODAL_INPUT_A_PACKAGE}
+                  onKeyUp={keyUpModalAddAPackage}
+                />
+              </div>
+              <div className="control">
+                <button
+                  className="button is-link"
+                  onClick={clickModalAddAPackage}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
             <div className="field">
               <label className="label">
                 isArchitectureSplit (current:{" "}
@@ -341,20 +366,6 @@ export function PLayer() {
                   />
                   false
                 </label>
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">packages</label>
-            </div>
-            {modalPackages}
-            <div className="field">
-              <div className="control">
-                <button
-                  className="button is-link"
-                  onClick={clickModalAddPackage}
-                >
-                  Add Package
-                </button>
               </div>
             </div>
             <div className="field">
