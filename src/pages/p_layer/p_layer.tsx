@@ -43,6 +43,7 @@ export function PLayer() {
     updatedAt: "",
     ignoreVersions: null,
     note: null,
+    github_actions_url: null,
   });
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
 
@@ -252,6 +253,10 @@ export function PLayer() {
             <tr>
               <th>note</th>
               <td>{layer.note}</td>
+            </tr>
+            <tr>
+              <th>github_actions_url</th>
+              <td>{layer.github_actions_url}</td>
             </tr>
           </tbody>
         </table>

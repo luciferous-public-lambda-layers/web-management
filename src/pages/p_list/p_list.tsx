@@ -170,6 +170,7 @@ export function PList() {
       note: modalLayer.note == null ? null : modalLayer.note,
       stateLayer: "QUEUED",
       updatedAt: generateCurrentDatetime(),
+      github_actions_url: null,
     };
 
     try {
