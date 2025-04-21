@@ -6,6 +6,7 @@ import {
   DeleteCommand,
   DynamoDBDocumentClient,
   GetCommand,
+  PutCommand,
   ScanCommand,
   ScanCommandOutput,
   UpdateCommand,
@@ -115,6 +116,19 @@ export async function deleteLayer({ identifier }: PropsDeleteLayer) {
   const command = new DeleteCommand({
     TableName: import.meta.env.VITE_NAME_DYNAMODB_TABLE,
     Key: { identifier },
+  });
+  await client.send(command);
+}
+
+export type PropsInsertLayer = {
+  layer: ModelLayer;
+};
+
+export async function insertLayer({ layer }: PropsInsertLayer) {
+  const client = await createDocumentClient();
+  const command = new PutCommand({
+    TableName: import.meta.env.VITE_NAME_DYNAMODB_TABLE,
+    Item: layer,
   });
   await client.send(command);
 }
