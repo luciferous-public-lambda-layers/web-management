@@ -93,7 +93,7 @@ export async function updateLayer(
       "#note": "note",
       "#updatedAt": "updatedAt",
       "#ignoreVersions": "ignoreVersions",
-      "#github_actions_url": "githubActionsUrl",
+      "#githubActionsUrl": "githubActionsUrl",
     },
     ExpressionAttributeValues: {
       ":stateLayer": nextState,
@@ -102,7 +102,7 @@ export async function updateLayer(
       ":note": props.note,
       ":updatedAt": generateCurrentDatetime(),
       ":ignoreVersions": props.ignoreVersions,
-      ":github_actions_url": null,
+      ":githubActionsUrl": null,
     },
     ReturnValues: "ALL_NEW",
   });
