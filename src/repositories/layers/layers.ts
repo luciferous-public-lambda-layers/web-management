@@ -71,10 +71,6 @@ export async function updateLayer(
   console.log(props);
 
   const nextState: StateLayer = "QUEUED";
-  const a: Partial<ModelLayer> = {
-    actionsPublishUrl: null,
-    actionsGenerateUrl: null,
-  };
 
   const command = new UpdateCommand({
     TableName: import.meta.env.VITE_NAME_DYNAMODB_TABLE,
