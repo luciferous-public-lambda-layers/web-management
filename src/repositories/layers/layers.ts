@@ -89,6 +89,7 @@ export async function updateLayer(
         "#updatedAt = :updatedAt",
         "#ignoreVersions = :ignoreVersions",
         "#actionsPublishUrl = :actionsPublishUrl",
+        "#actionsGenerateUrl = :actionsGenerateUrl",
       ].join(", "),
     ExpressionAttributeNames: {
       "#stateLayer": "stateLayer",
@@ -97,7 +98,6 @@ export async function updateLayer(
       "#note": "note",
       "#updatedAt": "updatedAt",
       "#ignoreVersions": "ignoreVersions",
-      "#githubActionsUrl": "githubActionsUrl",
       "#actionsPublishUrl": "actionsPublishUrl",
       "#actionsGenerateUrl": "actionsGenerateUrl",
     },
