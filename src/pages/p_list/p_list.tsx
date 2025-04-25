@@ -206,6 +206,7 @@ export function PList() {
           <Link to={`/layer/${item.identifier}`}>{item.identifier}</Link>
         </td>
         <td>{item.stateLayer}</td>
+        <td>{item.stateGenerate}</td>
         <td className="content">
           <ul>{packages}</ul>
         </td>
@@ -390,7 +391,8 @@ export function PList() {
           <thead>
             <tr>
               <th>identifier</th>
-              <th>state</th>
+              <th>stateLayer</th>
+              <th>stateGenerate</th>
               <th>packages</th>
               <th>isArchitectureSplit</th>
               <th>updatedAt</th>
