@@ -79,7 +79,6 @@ export async function updateLayer(
       "set " +
       [
         "#stateLayer = :stateLayer",
-        "#stateGenerate = :stateGenerate",
         "#packages = :packages",
         "#isArchitectureSplit = :isArchitectureSplit",
         "#note = :note",
@@ -90,7 +89,6 @@ export async function updateLayer(
       ].join(", "),
     ExpressionAttributeNames: {
       "#stateLayer": "stateLayer",
-      "#stateGenerate": "stateGenerate",
       "#packages": "packages",
       "#isArchitectureSplit": "isArchitectureSplit",
       "#note": "note",
@@ -101,7 +99,6 @@ export async function updateLayer(
     },
     ExpressionAttributeValues: {
       ":stateLayer": nextState,
-      ":stateGenerate": nextState,
       ":packages": props.packages,
       ":isArchitectureSplit": props.isArchitectureSplit,
       ":note": props.note,
