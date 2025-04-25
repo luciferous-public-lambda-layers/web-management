@@ -42,6 +42,8 @@ export function PLayer() {
     packages: [],
     isArchitectureSplit: false,
     updatedAt: "",
+    lastPublishedAt: null,
+    lastGeneratedAt: null,
     ignoreVersions: null,
     note: null,
     actionsPublishUrl: null,
@@ -255,6 +257,14 @@ export function PLayer() {
             <tr>
               <th>updatedAt</th>
               <td>{layer.updatedAt}</td>
+            </tr>
+            <tr>
+              <th>lastPublishedAt</th>
+              <td>{layer.lastPublishedAt}</td>
+            </tr>
+            <tr>
+              <th>lastGeneratedAt</th>
+              <td>{layer.lastGeneratedAt}</td>
             </tr>
             <tr>
               <th>note</th>

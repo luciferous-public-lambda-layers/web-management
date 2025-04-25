@@ -23,6 +23,8 @@ export type ModelLayer = {
   isArchitectureSplit: boolean;
   note: string | null;
   updatedAt: string;
+  lastPublishedAt: string | null;
+  lastGeneratedAt: string | null;
   ignoreVersions: LambdaRuntime[] | null;
   actionsPublishUrl: string | null;
   actionsGenerateUrl: string | null;

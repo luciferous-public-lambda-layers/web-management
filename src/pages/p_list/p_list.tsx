@@ -171,6 +171,8 @@ export function PList() {
       stateLayer: "QUEUED",
       stateGenerate: "QUEUED",
       updatedAt: generateCurrentDatetime(),
+      lastPublishedAt: null,
+      lastGeneratedAt: null,
       actionsPublishUrl: null,
       actionsGenerateUrl: null,
     };
