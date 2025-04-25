@@ -231,6 +231,18 @@ export function PLayer() {
               <td>{layer.stateGenerate}</td>
             </tr>
             <tr>
+              <th>updatedAt</th>
+              <td>{layer.updatedAt}</td>
+            </tr>
+            <tr>
+              <th>lastPublishedAt</th>
+              <td>{layer.lastPublishedAt}</td>
+            </tr>
+            <tr>
+              <th>lastGeneratedAt</th>
+              <td>{layer.lastGeneratedAt}</td>
+            </tr>
+            <tr>
               <th>packages</th>
               <td className="content">
                 <ul>
@@ -253,18 +265,6 @@ export function PLayer() {
                   ))}
                 </ul>
               </td>
-            </tr>
-            <tr>
-              <th>updatedAt</th>
-              <td>{layer.updatedAt}</td>
-            </tr>
-            <tr>
-              <th>lastPublishedAt</th>
-              <td>{layer.lastPublishedAt}</td>
-            </tr>
-            <tr>
-              <th>lastGeneratedAt</th>
-              <td>{layer.lastGeneratedAt}</td>
             </tr>
             <tr>
               <th>note</th>
