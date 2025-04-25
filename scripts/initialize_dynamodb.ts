@@ -25,7 +25,8 @@ async function insertItems(client: DynamoDBDocumentClient) {
       updatedAt: "2025-03-23T12:53:44.133765+09:00",
       ignoreVersions: null,
       note: null,
-      githubActionsUrl: null,
+      actionsPublishUrl: null,
+      actionsGenerateUrl: null,
     },
     {
       identifier: "scraper",
@@ -35,7 +36,8 @@ async function insertItems(client: DynamoDBDocumentClient) {
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
       note: "combine",
       ignoreVersions: null,
-      githubActionsUrl: null,
+      actionsPublishUrl: null,
+      actionsGenerateUrl: null,
     },
     {
       identifier: "openai",
@@ -45,7 +47,8 @@ async function insertItems(client: DynamoDBDocumentClient) {
       ignoreVersions: ["python3.9"],
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
       note: null,
-      githubActionsUrl: null,
+      actionsPublishUrl: null,
+      actionsGenerateUrl: null,
     },
     {
       identifier: "aws-cloudwatch-logs-url",
@@ -55,7 +58,8 @@ async function insertItems(client: DynamoDBDocumentClient) {
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
       note: null,
       ignoreVersions: null,
-      githubActionsUrl: null,
+      actionsPublishUrl: null,
+      actionsGenerateUrl: null,
     },
   ];
   const command = new BatchWriteCommand({

@@ -23,7 +23,8 @@ export type ModelLayer = {
   note: string | null;
   updatedAt: string;
   ignoreVersions: LambdaRuntime[] | null;
-  githubActionsUrl: string | null;
+  actionsPublishUrl: string | null;
+  actionsGenerateUrl: string | null;
 };
 
 export type ModelHistoryLayer = {

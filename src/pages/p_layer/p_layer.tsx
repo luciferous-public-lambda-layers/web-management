@@ -43,7 +43,8 @@ export function PLayer() {
     updatedAt: "",
     ignoreVersions: null,
     note: null,
-    githubActionsUrl: null,
+    actionsPublishUrl: null,
+    actionsGenerateUrl: null,
   });
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
 
@@ -255,8 +256,28 @@ export function PLayer() {
               <td>{layer.note}</td>
             </tr>
             <tr>
-              <th>github_actions_url</th>
-              <td>{layer.githubActionsUrl}</td>
+              <th>actionsPublishUrl</th>
+              <td>
+                <a
+                  href={layer.actionsPublishUrl ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {layer.actionsPublishUrl}
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <th>actionsGenerateUrl</th>
+              <td>
+                <a
+                  href={layer.actionsGenerateUrl ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {layer.actionsGenerateUrl}
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
