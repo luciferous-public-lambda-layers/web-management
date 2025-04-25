@@ -71,6 +71,10 @@ export async function updateLayer(
   console.log(props);
 
   const nextState: StateLayer = "QUEUED";
+  const a: Partial<ModelLayer> = {
+    actionsPublishUrl: null,
+    actionsGenerateUrl: null,
+  };
 
   const command = new UpdateCommand({
     TableName: import.meta.env.VITE_NAME_DYNAMODB_TABLE,
@@ -84,7 +88,7 @@ export async function updateLayer(
         "#note = :note",
         "#updatedAt = :updatedAt",
         "#ignoreVersions = :ignoreVersions",
-        "#githubActionsUrl = :githubActionsUrl",
+        "#actionsPublishUrl = :actionsPublishUrl",
       ].join(", "),
     ExpressionAttributeNames: {
       "#stateLayer": "stateLayer",
@@ -94,6 +98,8 @@ export async function updateLayer(
       "#updatedAt": "updatedAt",
       "#ignoreVersions": "ignoreVersions",
       "#githubActionsUrl": "githubActionsUrl",
+      "#actionsPublishUrl": "actionsPublishUrl",
+      "#actionsGenerateUrl": "actionsGenerateUrl",
     },
     ExpressionAttributeValues: {
       ":stateLayer": nextState,
@@ -102,7 +108,8 @@ export async function updateLayer(
       ":note": props.note,
       ":updatedAt": generateCurrentDatetime(),
       ":ignoreVersions": props.ignoreVersions,
-      ":githubActionsUrl": null,
+      ":actionsPublishUrl": null,
+      ":actionsGenerateUrl": null,
     },
     ReturnValues: "ALL_NEW",
   });
