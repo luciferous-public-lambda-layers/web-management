@@ -38,6 +38,7 @@ export function PLayer() {
   const [modalLayer, setModalLayer] = useState<ModelLayer>({
     identifier: "tmp",
     stateLayer: "QUEUED",
+    stateGenerate: "QUEUED",
     packages: [],
     isArchitectureSplit: false,
     updatedAt: "",
@@ -220,8 +221,12 @@ export function PLayer() {
               <td>{layer.identifier}</td>
             </tr>
             <tr>
-              <th>state</th>
+              <th>stateLayer</th>
               <td>{layer.stateLayer}</td>
+            </tr>
+            <tr>
+              <th>stateGenerate</th>
+              <td>{layer.stateGenerate}</td>
             </tr>
             <tr>
               <th>packages</th>

@@ -20,6 +20,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
     {
       identifier: "zstd",
       stateLayer: "QUEUED",
+      stateGenerate: "QUEUED",
       packages: ["zstd"],
       isArchitectureSplit: true,
       updatedAt: "2025-03-23T12:53:44.133765+09:00",
@@ -31,6 +32,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
     {
       identifier: "scraper",
       stateLayer: "DEPLOYING",
+      stateGenerate: "PUBLISHED",
       packages: ["feedparser", "beautifulsoup4"],
       isArchitectureSplit: false,
       updatedAt: "2025-03-23T12:55:56.572680+09:00",
@@ -42,6 +44,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
     {
       identifier: "openai",
       stateLayer: "PUBLISHED",
+      stateGenerate: "PUBLISHED",
       packages: ["openai"],
       isArchitectureSplit: true,
       ignoreVersions: ["python3.9"],
@@ -53,6 +56,7 @@ async function insertItems(client: DynamoDBDocumentClient) {
     {
       identifier: "aws-cloudwatch-logs-url",
       stateLayer: "FAILED",
+      stateGenerate: "FAILED",
       packages: ["aws-cloudwatch-logs-url"],
       isArchitectureSplit: false,
       updatedAt: "2025-03-23T12:55:56.572680+09:00",

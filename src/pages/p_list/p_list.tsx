@@ -169,6 +169,7 @@ export function PList() {
         modalLayer.ignoreVersions == null ? null : modalLayer.ignoreVersions,
       note: modalLayer.note == null ? null : modalLayer.note,
       stateLayer: "QUEUED",
+      stateGenerate: "QUEUED",
       updatedAt: generateCurrentDatetime(),
       actionsPublishUrl: null,
       actionsGenerateUrl: null,

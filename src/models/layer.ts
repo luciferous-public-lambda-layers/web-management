@@ -18,6 +18,7 @@ export const allLambdaRuntimes: LambdaRuntime[] = [
 export type ModelLayer = {
   identifier: string;
   stateLayer: StateLayer;
+  stateGenerate: StateLayer;
   packages: string[];
   isArchitectureSplit: boolean;
   note: string | null;
